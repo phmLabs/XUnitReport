@@ -1,0 +1,15 @@
+{
+  "name": "phmlabs/xunitreport",
+
+  "description": "Create xunit reports using classes",
+
+  "require": {
+    "php": ">= 5.2.0"
+  },
+
+  "autoload": {
+    "psr-4": {
+      "phmLabs\\XunitReport\\": "src/"
+    }
+  }
+}
