@@ -39,6 +39,7 @@ class XUnitReport
         $xmlRoot->appendChild($testSuite);
 
         $failureCount = 0;
+        $errorCount = 0;
         $time = 0;
 
         foreach ($this->testCases as $testCaseElement) {
@@ -49,16 +50,42 @@ class XUnitReport
             $testCase->setAttribute('assertions', '1');
             $testCase->setAttribute('time', $testCaseElement->getTime());
 
-            $time += $testCaseElement->getTime();
+            if ($testCaseElement->isSkipped()) {
+                $testCase->setAttribute('skipped', 'skipped');
+            }
 
-            if ($testCaseElement->hasFailure()) {
+            $time += (float)$testCaseElement->getTime();
 
+            foreach($testCaseElement->getFailures() as $failure) {
                 $failureCount++;
                 $testFailure = $xml->createElement('failure');
                 $testCase->appendChild($testFailure);
-                $testFailure->setAttribute('type', $testCaseElement->getFailure()->getType());
-                $text = $xml->createTextNode($testCaseElement->getFailure()->getMessage());
+                $testFailure->setAttribute('type', $failure->getType());
+                $text = $xml->createTextNode($failure->getMessage());
                 $testFailure->appendChild($text);
+            }
+
+            foreach($testCaseElement->getErrors() as $error) {
+                $errorCount++;
+                $testError = $xml->createElement('error');
+                $testCase->appendChild($testError);
+                $testError->setAttribute('type', $error->getType());
+                $text = $xml->createTextNode($error->getMessage());
+                $testError->appendChild($text);
+            }
+
+            if($testCaseElement->hasSystemOut()) {
+                $systemOut = $xml->createElement('system-out');
+                $testCase->appendChild($systemOut);
+                $text = $xml->createTextNode($testCaseElement->getSystemOut());
+                $systemOut->appendChild($text);
+            }
+
+            if($testCaseElement->hasSystemErr()) {
+                $systemErr = $xml->createElement('system-err');
+                $testCase->appendChild($systemErr);
+                $text = $xml->createTextNode($testCaseElement->getSystemErr());
+                $systemErr->appendChild($text);
             }
 
             $testSuite->appendChild($testCase);

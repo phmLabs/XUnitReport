@@ -1,21 +1,19 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: nils.langner
- * Date: 11.11.15
- * Time: 20:54
- */
 
 namespace phmLabs\XUnitReport\Elements;
 
 
 class TestCase
 {
-    private $failure = null;
+    private $failures = array();
+    private $errors = array();
+    private $skipped = false;
 
-    private $classname;
-    private $name;
-    private $time;
+    private $classname = '';
+    private $name = '';
+    private $systemOut = '';
+    private $systemErr = '';
+    private $time = '';
 
     public function __construct($classname, $name, $time)
     {
@@ -24,26 +22,55 @@ class TestCase
         $this->time = $time;
     }
 
-    public function setFailure(Failure $failure)
+    public function addFailure(Failure $failure)
     {
-        $this->failure = $failure;
+        $this->failures[] = $failure;
     }
 
     public function hasFailure()
     {
-        return !is_null($this->failure);
+        return $this->hasFailures();
+    }
+
+    public function hasFailures()
+    {
+        return count($this->failures) !== 0;
     }
 
     /**
      * @return Failure
      */
-    public function getFailure()
+    public function getFailures()
     {
-        return $this->failure;
+        return $this->failures;
     }
 
     /**
-     * @return mixed
+     * @param Error $error
+     */
+    public function addError(Error $error)
+    {
+        $this->errors[] = $error;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasErrors()
+    {
+        return count($this->errors) !== 0;
+    }
+
+    /**
+     * @return array of Error
+     */
+    public function getErrors()
+    {
+        return $this->errors;
+    }
+
+    /**
+     * @return string
      */
     public function getClassname()
     {
@@ -51,7 +78,7 @@ class TestCase
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getName()
     {
@@ -59,12 +86,77 @@ class TestCase
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getTime()
     {
         return $this->time;
     }
 
+    /**
+     * @param boolean $skipped
+     */
+    public function setSkipped($skipped)
+    {
+        $this->skipped = $skipped;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isSkipped()
+    {
+        return $this->skipped;
+    }
+
+
+    /**
+     * @param string $systemOut
+     */
+    public function setSystemOut($systemOut)
+    {
+        $this->systemOut = $systemOut;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSystemOut()
+    {
+        return $this->systemOut;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasSystemOut()
+    {
+        return strlen($this->systemOut) !== 0;
+    }
+
+    /**
+     * @param string $systemErr
+     */
+    public function setSystemErr($systemErr)
+    {
+        $this->systemErr = $systemErr;
+    }
+
+
+    /**
+     * @return bool
+     */
+    public function hasSystemErr()
+    {
+        return strlen($this->systemErr) !== 0;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSystemErr()
+    {
+        return $this->systemErr;
+    }
 
 }

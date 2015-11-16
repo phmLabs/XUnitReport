@@ -1,6 +1,6 @@
 {
   "name": "phmlabs/xunitreport",
-
+  "version": "1.0.2",
   "description": "Create xunit reports using classes",
 
   "require": {

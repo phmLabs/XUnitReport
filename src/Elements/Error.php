@@ -3,7 +3,7 @@
 namespace phmLabs\XUnitReport\Elements;
 
 
-class Failure
+class Error
 {
     private $type;
     private $message;
