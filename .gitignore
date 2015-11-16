@@ -1,0 +1,9 @@
+# JetBrains IDE
+*.iml
+.idea/
+
+# Vendor files generated with composer
+/vendor/
+
+# Ignore composer.lock
+composer.lock
