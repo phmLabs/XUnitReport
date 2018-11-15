@@ -61,12 +61,8 @@ class XUnitReport
                 $testFailure = $xml->createElement('failure');
                 $testCase->appendChild($testFailure);
                 $testFailure->setAttribute('type', $failure->getType());
-
-                $message =  $xml->createElement('message');
                 $text = $xml->createTextNode($failure->getMessage());
-                $message->appendChild($text);
-
-                $testFailure->appendChild($message);
+                $testFailure->appendChild($text);
             }
 
             foreach ($testCaseElement->getErrors() as $error) {
