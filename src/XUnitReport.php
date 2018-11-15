@@ -103,7 +103,7 @@ class XUnitReport
         $testSuite->setAttribute('tests', count($this->testCases));
         $testSuite->setAttribute('failures', $failureCount);
         $testSuite->setAttribute('errors', $errorCount);
-        $testSuite->setAttribute('time', $this->time);
+        $testSuite->setAttribute('time', 0);
 
         return $xml->saveXML();
     }
