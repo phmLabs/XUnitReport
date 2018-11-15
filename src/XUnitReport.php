@@ -47,7 +47,7 @@ class XUnitReport
             $testCase = $xml->createElement('testcase');
             $testCase->setAttribute('classname', $testCaseElement->getClassname());
             $testCase->setAttribute('name', $testCaseElement->getName());
-            $testCase->setAttribute('assertions', '1');
+            // $testCase->setAttribute('assertions', '1');
             $testCase->setAttribute('time', $testCaseElement->getTime());
 
             if ($testCaseElement->isSkipped()) {
