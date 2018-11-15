@@ -8,14 +8,22 @@ class XUnitReport
 {
     private $name;
 
+    private $time;
+
     /**
      * @var TestCase[]
      */
     private $testCases;
 
-    public function __construct($name)
+    public function __construct($name, $time = null)
     {
         $this->name = $name;
+
+        if ($time) {
+            $this->time = $time;
+        } else {
+            $this->time = time();
+        }
     }
 
     public function addTestCase(TestCase $testCase)
@@ -95,7 +103,7 @@ class XUnitReport
         $testSuite->setAttribute('tests', count($this->testCases));
         $testSuite->setAttribute('failures', $failureCount);
         $testSuite->setAttribute('errors', $errorCount);
-        $testSuite->setAttribute('time', $time);
+        $testSuite->setAttribute('time', $this->time);
 
         return $xml->saveXML();
     }
