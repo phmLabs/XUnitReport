@@ -38,7 +38,7 @@ class TestCase
     }
 
     /**
-     * @return Failure
+     * @return Failure[]
      */
     public function getFailures()
     {
@@ -62,7 +62,7 @@ class TestCase
     }
 
     /**
-     * @return array of Error
+     * @return Error[]
      */
     public function getErrors()
     {

@@ -24,7 +24,7 @@ class XUnitReport
     }
 
     /**
-     * @return \DOMDocument
+     * @return string
      */
     public function toXml()
     {
@@ -56,7 +56,7 @@ class XUnitReport
 
             $time += (float)$testCaseElement->getTime();
 
-            foreach($testCaseElement->getFailures() as $failure) {
+            foreach ($testCaseElement->getFailures() as $failure) {
                 $failureCount++;
                 $testFailure = $xml->createElement('failure');
                 $testCase->appendChild($testFailure);
@@ -65,7 +65,7 @@ class XUnitReport
                 $testFailure->appendChild($text);
             }
 
-            foreach($testCaseElement->getErrors() as $error) {
+            foreach ($testCaseElement->getErrors() as $error) {
                 $errorCount++;
                 $testError = $xml->createElement('error');
                 $testCase->appendChild($testError);
@@ -74,14 +74,14 @@ class XUnitReport
                 $testError->appendChild($text);
             }
 
-            if($testCaseElement->hasSystemOut()) {
+            if ($testCaseElement->hasSystemOut()) {
                 $systemOut = $xml->createElement('system-out');
                 $testCase->appendChild($systemOut);
                 $text = $xml->createTextNode($testCaseElement->getSystemOut());
                 $systemOut->appendChild($text);
             }
 
-            if($testCaseElement->hasSystemErr()) {
+            if ($testCaseElement->hasSystemErr()) {
                 $systemErr = $xml->createElement('system-err');
                 $testCase->appendChild($systemErr);
                 $text = $xml->createTextNode($testCaseElement->getSystemErr());
@@ -94,6 +94,7 @@ class XUnitReport
         $testSuite->setAttribute('name', $this->name);
         $testSuite->setAttribute('tests', count($this->testCases));
         $testSuite->setAttribute('failures', $failureCount);
+        $testSuite->setAttribute('errors', $errorCount);
         $testSuite->setAttribute('time', $time);
 
         return $xml->saveXML();
